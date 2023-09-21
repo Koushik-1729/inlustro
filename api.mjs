@@ -16,7 +16,6 @@ import PraticipantRoute from './app/routes/ParticipantRoute.mjs'
 
 import { User, Team, Project, UserProjectMembership, Zone, ZoneCustomMetrics,ProjectCustomMetrics,TeamCustomMetrics,UserCustomMetrics,CustomMetrics,UserProjectZoneMeetingRole,UserZoneMeetingRole,UserProjectMeetingRole,UserMeetingRole,UserProjectZoneRole,UserZoneRole
   ,UserTeamRole,UserTeamMembership,UserProjectRole,UserZoneMembership,ZoneMeetingAnalytics,UserSentiment,MeetingAnalytics,PostMeetingReport,SpeakerRecognition,SuggestedTimeSlot,EngagementMetrics,DiscussionPoint,DiscussionTopic,ActionItem,Participant,Meeting,ZoneMeetingMembership} from './app/schema/Schemas.mjs';
-  ,UserTeamRole,UserProjectRole,UserZoneMembership,ZoneMeetingAnalytics,UserSentiment,MeetingAnalytics,PostMeetingReport,SpeakerRecognition,SuggestedTimeSlot,EngagementMetrics,DiscussionPoint,DiscussionTopic,ActionItem,Participant,Meeting,ZoneMeetingMembership} from './app/schema/Schemas.mjs';
 import TeamRoute from './app/routes/TeamRoute.mjs';
 import UserTeamMembershipRoute from './app/routes/UserTeamMembershipRoute.mjs';
 const app = express();
