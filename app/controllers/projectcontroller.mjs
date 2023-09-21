@@ -31,7 +31,7 @@ async function updateProject(req, res) {
     const { ProjectId } = req.params;
     const { ProjectName } = req.body;
 
-    // Find the user by ProjectId
+    // Find the project by ProjectId
     const project = await Project.findById(ProjectId);
 
     if (!project) {

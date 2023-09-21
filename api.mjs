@@ -12,6 +12,7 @@ import CustomMetricsRoute from './app/routes/CustomMetricsRoute.mjs'
 import UserCustomMetricsRoute from './app/routes/UserCustomMetricsRoute.mjs'
 import TeamCustomMetricsRoute from './app/routes/TeamCustomMetricsRoute.mjs'
 import ProjectCustomMetricsRoute from './app/routes/ProjectCustomMetricsRoute.mjs'
+import PraticipantRoute from './app/routes/ParticipantRoute.mjs'
 
 import { User, Team, Project, UserProjectMembership, Zone, ZoneCustomMetrics,ProjectCustomMetrics,TeamCustomMetrics,UserCustomMetrics,CustomMetrics,UserProjectZoneMeetingRole,UserZoneMeetingRole,UserProjectMeetingRole,UserMeetingRole,UserProjectZoneRole,UserZoneRole
   ,UserTeamRole,UserTeamMembership,UserProjectRole,UserZoneMembership,ZoneMeetingAnalytics,UserSentiment,MeetingAnalytics,PostMeetingReport,SpeakerRecognition,SuggestedTimeSlot,EngagementMetrics,DiscussionPoint,DiscussionTopic,ActionItem,Participant,Meeting,ZoneMeetingMembership} from './app/schema/Schemas.mjs';
@@ -36,6 +37,7 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
   app.use('/api/usercustommetrics', UserCustomMetricsRoute);
   app.use('/api/teamcustommetrics', TeamCustomMetricsRoute);
   app.use('/api/projectcustommetrics', ProjectCustomMetricsRoute);
+  app.use('/api/participants', PraticipantRoute);
 
 
 

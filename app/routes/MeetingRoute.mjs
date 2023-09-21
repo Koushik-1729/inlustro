@@ -6,7 +6,7 @@ import {registerMeeting,
   getMeetingById,
   deleteMeetingById,
 
-} from '../controllers/Meeting.mjs';
+} from '../controllers/MeetingController.mjs';
 const router =express.Router();
 router.post('/register', registerMeeting);
 router.put('/meetings/:MeetingId', updateMeeting);

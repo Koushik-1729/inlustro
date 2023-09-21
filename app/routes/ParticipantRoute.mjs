@@ -9,9 +9,9 @@ import {registerParticipant,
 } from '../controllers/ParticipantController.mjs';
 const router =express.Router();
 router.post('/register', registerParticipant);
-router.put('/participants/:ParticipantId', updateParticipant);
-router.get('/participants', getAllParticipants);
-router.get('/participants/:ParticipantId', getParticipantById);
-router.delete('/participants/:ParticipantId', deleteParticipantById);
+router.put('/:ParticipantId', updateParticipant);
+router.get('/', getAllParticipants);
+router.get('/:ParticipantId', getParticipantById);
+router.delete('/:ParticipantId', deleteParticipantById);
 
 export default router;

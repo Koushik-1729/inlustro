@@ -9,9 +9,9 @@ import {registerTeam,
 } from '../controllers/TeamController.mjs';
 const router =express.Router();
 router.post('/register', registerTeam);
-router.put('/teams/:TeamId', updateTeam);
-router.get('/teams', getAllTeams);
-router.get('/teams/:TeamId', getTeamById);
-router.delete('/teams/:TeamId', deleteTeamById);
+router.put('/:TeamId', updateTeam);
+router.get('/', getAllTeams);
+router.get('/:TeamId', getTeamById);
+router.delete('/:TeamId', deleteTeamById);
 
 export default router;
