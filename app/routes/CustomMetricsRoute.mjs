@@ -1,2 +1,2 @@
-import express from 'express';
-import { CustomMetrics } from '../schema/Schemas.mjs';
+
+export default router;
