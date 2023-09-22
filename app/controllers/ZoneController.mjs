@@ -1,15 +1,24 @@
 //const mongoose = require('mongoose');
 
 import { Zone } from '../schema/Schemas.mjs';
- // Replace with the path to your model file
-// Create a new zone
-export async function createZone(req, res) {
-  try {
+
+// Function to register a new Zone
+async function registerZone(req, res) {
+    try {
+      
+  
     const { ZoneID, ZoneName } = req.body;
-    const newZone = new Zone({ ZoneID, ZoneName });
-    const savedZone = await newZone.save();
-    res.status(201).json(savedZone);
-  } catch (error) {
+      console.log('Request Body:', req.body);
+  
+      // Create a new Zone record with the specified ZoneID
+      const newZone = new Zone({
+        ZoneID, ZoneName
+      });
+  
+      await newZone.save();
+  
+      res.status(201).json(newZone);
+    } catch (error) {
     res.status(500).json({ error: 'Could not create the zone.' });
   }
 }
@@ -17,16 +26,30 @@ export async function createZone(req, res) {
 // Get all zones
 export async function getAllZones(req, res) {
   try {
-    const zones = await Zone.find();
-    res.json(zones);
-  } catch (error) {
+      const { ZoneId } = req.params;
+      const { ZoneName } = req.body;
+  
+      // Find the Zone by ZoneId
+      const zone = await Zone.findById(ZoneId);
+  
+      if (!zone) {
+        return res.status(404).json({ error: 'Zone not found.' });
+      }
+  
+      // Update Zone fields
+      zone.ZoneName = ZoneName;
+  
+      await zone.save();
+  
+      res.json(zone);
+    } catch (error) {
     res.status(500).json({ error: 'Could not fetch zones.' });
   }
 }
 
-// Get a single zone by ID
-export async function getZoneById(req, res) {
-  try {
+  // Function to delete a Zone
+  async function deleteZone(req, res) {
+    try {
     const zone = await Zone.findById(req.params.id);
     if (!zone) {
       return res.status(404).json({ error: 'Zone not found.' });

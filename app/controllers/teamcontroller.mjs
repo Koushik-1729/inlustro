@@ -5,7 +5,6 @@ import { Team } from '../schema/Schemas.mjs';
 // Function to register a new Team
 =======
 // Function to register a new user
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
 async function registerTeam(req, res) {
   try {
     
@@ -24,14 +23,6 @@ async function registerTeam(req, res) {
     console.log('Request Body:', req.body);
 
 
-    // Create a new user record with the specified UserID
-    const newTeam = new Team({
-      TeamID, // Manually set UserID
-      TeamName,
-      TeamLeaderID,
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
-    });
-
     await newTeam.save();
 
     res.status(201).json(newTeam);
@@ -42,25 +33,6 @@ async function registerTeam(req, res) {
   }
 }
 
-// Function to update Team information
-async function updateTeam(req, res) {
-  try {
-    const { TeamId } = req.params;
-    const { TeamName } = req.body;
-
-    // Find the user by TeamId
-    const team = await Team.findById(TeamId);
-
-    if (!team) {
-      return res.status(404).json({ error: 'User not found.' });
-    }
-
-    // Update Team fields
-    team.TeamName = TeamName;
-=======
-    res.status(500).json({ error: 'Could not register the team.' });
-  }
-}
 
 
 // Function to update team information
@@ -80,7 +52,6 @@ async function updateTeam(req, res) {
 
     // Update user fields
     team.TeamName = TeamName,
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
 
     await team.save();
 
@@ -98,7 +69,6 @@ async function deleteTeam(req, res) {
     const { TeamId } = req.body;
 
     // Find and remove the Team by TeamId
-=======
     res.status(500).json({ error: 'Could not update team information.' });
   }
 }
