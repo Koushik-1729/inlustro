@@ -1,6 +1,5 @@
 import express from 'express';
-<<<<<<< HEAD
-=======
+
 import { Team } from '../schema/Schemas.mjs';
 
 import {registerTeam,
@@ -12,7 +11,6 @@ import {registerTeam,
 } from '../controllers/TeamController.mjs';
 const router =express.Router();
 router.post('/register', registerTeam);
-<<<<<<< HEAD
 router.put('/:TeamId', updateTeam);
 router.get('/', getAllTeams);
 router.get('/:TeamId', getTeamById);

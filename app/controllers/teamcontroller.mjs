@@ -1,47 +1,35 @@
 import express from 'express';
 import { Team } from '../schema/Schemas.mjs';
 
-<<<<<<< HEAD
-// Function to register a new Team
-=======
-// Function to register a new user
 async function registerTeam(req, res) {
   try {
-    
+    const { TeamName, TeamLeaderID } = req.body;
 
-    const { TeamID, TeamName, TeamLeaderID } = req.body;
-<<<<<<< HEAD
-    console.log('Request Body:', req.body);
-
-    // Create a new team record with the specified TeamID
+    // Create a new team record without populating TeamLeaderID
     const newTeam = new Team({
-        TeamID, // Manually set TeamID
-        TeamName,
-        TeamLeaderID,
-=======
-    console.log(TeamLeaderID)
-    console.log('Request Body:', req.body);
+      TeamName,
+      TeamLeaderID, // Assuming TeamLeaderID is provided in the request body
+    });
 
-
+    // Save the new team
     await newTeam.save();
 
-    res.status(201).json(newTeam);
+    // Respond with the newly created team, including its ID
+    res.status(201).json({
+      _id: newTeam._id, // Include the team's ID in the response
+      TeamName: newTeam.TeamName,
+      __v: newTeam.__v,
+    });
   } catch (error) {
     console.error(error);
-<<<<<<< HEAD
-    res.status(500).json({ error: 'Could not register the Team.' });
+    res.status(500).json({ error: 'Could not register the team.' });
   }
 }
 
-
-
-// Function to update team information
+// Function to register a new user
 async function updateTeam(req, res) {
   try {
-    const { TeamID } = req.body;
-    console.log(TeamID)
-    console.log(TeamID)
-    const { TeamName  } = req.body;
+    const { TeamID, TeamName } = req.body;
 
     // Find the Team by TeamId
     const team = await Team.findById(TeamID);
@@ -50,38 +38,40 @@ async function updateTeam(req, res) {
       return res.status(404).json({ error: 'Team not found.' });
     }
 
-    // Update user fields
-    team.TeamName = TeamName,
+    // Update team fields
+    team.TeamName = TeamName;
+
+    // Populate the team leader's details
+    await team.populate('TeamLeaderID').execPopulate();
 
     await team.save();
 
     res.json(team);
   } catch (error) {
     console.error(error);
-<<<<<<< HEAD
-    res.status(500).json({ error: 'Could not update Team information.' });
-  }
-}
-
-// Function to delete a Team
-async function deleteTeam(req, res) {
-  try {
-    const { TeamId } = req.body;
-
-    // Find and remove the Team by TeamId
     res.status(500).json({ error: 'Could not update team information.' });
   }
 }
 
-
-
 // Function to delete a team
+
 async function deleteTeam(req, res) {
   try {
     const { TeamId } = req.params;
+    console.log(req.params);
+    console.log(TeamId);
 
-    // Find and remove the team by TeamId
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
+    // Find the team by TeamId and populate the team leader's details
+    const team = await Team.findById(TeamId).populate('TeamLeaderID');
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found.' });
+    }
+
+    // Now you have access to the team leader's details if needed
+    const teamLeader = team.TeamLeaderID;
+
+    // Delete the team
     const deletedTeam = await Team.findByIdAndRemove(TeamId);
 
     if (!deletedTeam) {
@@ -91,40 +81,27 @@ async function deleteTeam(req, res) {
     res.json({ message: 'Team deleted successfully.' });
   } catch (error) {
     console.error(error);
-<<<<<<< HEAD
-    res.status(500).json({ error: 'Could not delete the Team.' });
-  }
-}
-// Function to get all Teams
-=======
     res.status(500).json({ error: 'Could not delete the team.' });
   }
 }
+
 // Function to get all teams
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
 async function getAllTeams(req, res) {
   try {
-    const teams = await Team.find();
+    const teams = await Team.find().populate('TeamLeaderID');
     res.json(teams);
   } catch (error) {
     console.error(error);
-<<<<<<< HEAD
-    res.status(500).json({ error: 'Could not fetch Teams.' });
-  }
-}
-
-// Function to get a single Team by ID
-=======
     res.status(500).json({ error: 'Could not fetch teams.' });
   }
 }
 
-// Function to get a single team by ID
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
+
+// Function to get a single team by ID with team leader details populated
 async function getTeamById(req, res) {
   try {
     const { TeamId } = req.params;
-    const team = await Team.findById(TeamId);
+    const team = await Team.findById(TeamId).populate('TeamLeaderID');
 
     if (!team) {
       return res.status(404).json({ error: 'Team not found.' });
@@ -133,19 +110,6 @@ async function getTeamById(req, res) {
     res.json(team);
   } catch (error) {
     console.error(error);
-<<<<<<< HEAD
-    res.status(500).json({ error: 'Could not fetch the Team.' });
-  }
-}
-
-// Function to delete a Team by ID
-async function deleteTeamById(req, res) {
-  try {
-    const { TeamId } = req.params;
-
-    // Find and remove the Team by TeamId
-    const deletedTeam = await Team.findByIdAndRemove(TeamId);
-=======
     res.status(500).json({ error: 'Could not fetch the team.' });
   }
 }
@@ -159,7 +123,6 @@ async function deleteTeamById(req, res) {
 
     // Find and remove the user by UserId
     const deletedTeam = await Team.findByIdAndRemove(TeamID);
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
 
     if (!deletedTeam) {
       return res.status(404).json({ error: 'Team not found.' });
@@ -173,17 +136,9 @@ async function deleteTeamById(req, res) {
 }
 
 export {
-<<<<<<< HEAD
-    registerTeam,
-    updateTeam,
-    getAllTeams,
-    getTeamById,
-    deleteTeamById,
-=======
   registerTeam,
   updateTeam,
   getAllTeams,
   getTeamById,
   deleteTeamById,
->>>>>>> 3e03cd83a45d0935a98101cd90e1232dca532d80
 };
