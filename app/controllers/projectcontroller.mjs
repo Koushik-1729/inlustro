@@ -50,7 +50,7 @@ async function updateProject(req, res) {
   }
 }
 
-// Function to delete a Project
+
 async function deleteProject(req, res) {
   try {
     const { ProjectId } = req.params;

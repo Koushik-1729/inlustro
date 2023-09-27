@@ -1,16 +1,27 @@
 import express from 'express';
+import {
+  registerZone,
+  getAllZones,
+  deleteZone,
+  updateZoneById,
+  deleteZoneById,
+} from '../controllers/ZoneController.mjs';
 
-// Create a new zone
-router.post('/', createZone);
+const router = express.Router();
+
+// Register a new Zone
+router.post('/zones', registerZone);
 
 // Get all zones
-router.get('/', getAllZones);
+router.get('/zones', getAllZones);
 
-// Get a single zone by ID
-router.get('/:id', getZoneById);
+// Delete a Zone
+router.delete('/zones/:id', deleteZone);
 
-// Delete a zone by ID
-router.delete('/:id', deleteZoneById);
+// Update a Zone by ID
+router.put('/zones/:id', updateZoneById);
 
-export default { router };
+// Delete a Zone by ID
+router.delete('/zones/:id', deleteZoneById);
 
+export default router;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { ProjectCustomMetrics } from '../schema/Schemas.mjs';
+import { ProjectCustomMetrics,Project,CustomMetrics } from '../schema/Schemas.mjs';
 
 // Function to register a new ProjectCustomMetrics
 async function registerProjectCustomMetrics(req, res) {
@@ -27,20 +27,20 @@ async function registerProjectCustomMetrics(req, res) {
   }
 }
 
-// Function to update ProjectCustomMetrics information
+
 async function updateProjectCustomMetrics(req, res) {
   try {
     const { ProjectCustomMetricsId } = req.params;
     const { ProjectID, CustomMetricsID, Value, Timestamp } = req.body;
 
-    // Find the user by ProjectCustomMetricsId
+  
     const projectcustommetrics = await ProjectCustomMetrics.findById(ProjectCustomMetricsId);
 
     if (!projectcustommetrics) {
       return res.status(404).json({ error: 'ProjectCustomMetrics not found.' });
     }
 
-    // Update ProjectCustomMetrics fields
+ 
     projectcustommetrics.ProjectID = ProjectID;
     projectcustommetrics.CustomMetricsID = CustomMetricsID;
     projectcustommetrics.Value = Value;
@@ -55,12 +55,12 @@ async function updateProjectCustomMetrics(req, res) {
   }
 }
 
-// Function to delete a ProjectCustomMetrics
+
 async function deleteProjectCustomMetrics(req, res) {
   try {
     const { ProjectCustomMetricsId } = req.body;
 
-    // Find and remove the ProjectCustomMetrics by ProjectCustomMetricsId
+  
     const deletedProjectCustomMetrics = await ProjectCustomMetrics.findByIdAndRemove(ProjectCustomMetricsId);
 
     if (!deletedProjectCustomMetrics) {
@@ -73,22 +73,40 @@ async function deleteProjectCustomMetrics(req, res) {
     res.status(500).json({ error: 'Could not delete the ProjectCustomMetrics.' });
   }
 }
-// Function to get all ProjectCustomMetricss
-async function getAllProjectCustomMetricss(req, res) {
+
+async function getAllProjectCustomMetrics(req, res) {
   try {
-    const projectcustommetricss = await ProjectCustomMetrics.find();
-    res.json(projectcustommetricss);
+    const projectcustommetrics = await ProjectCustomMetrics.find()
+    .populate({
+      path:'ProjectID',
+      model:'Project'
+    })  // Populate the ProjectID field
+    .populate({
+      path:"CustomMetricsID",
+      model:CustomMetrics,
+    }) // Populate the CustomMetricsID field
+      .exec();
+    res.json(projectcustommetrics);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Could not fetch ProjectCustomMetrics.' });
   }
 }
 
-// Function to get a single ProjectCustomMetrics by ID
+
 async function getProjectCustomMetricsById(req, res) {
   try {
     const { ProjectCustomMetricsId } = req.params;
-    const projectcustommetrics = await ProjectCustomMetrics.findById(ProjectCustomMetricsId);
+    const projectcustommetrics = await ProjectCustomMetrics.findById(ProjectCustomMetricsId)
+      .populate({
+        path:'ProjectID',
+        model:Project
+      }) // Populate the ProjectID field
+      .populate({
+        path:"CustomMetricsID",
+        model:CustomMetrics,
+      }) // Populate the CustomMetricsID field
+      .exec();
 
     if (!projectcustommetrics) {
       return res.status(404).json({ error: 'ProjectCustomMetrics not found.' });
@@ -101,12 +119,12 @@ async function getProjectCustomMetricsById(req, res) {
   }
 }
 
-// Function to delete a ProjectCustomMetrics by ID
+
 async function deleteProjectCustomMetricsById(req, res) {
   try {
     const { ProjectCustomMetricsId } = req.params;
 
-    // Find and remove the ProjectCustomMetrics by ProjectCustomMetricsId
+    
     const deletedProjectCustomMetrics = await ProjectCustomMetrics.findByIdAndRemove(ProjectCustomMetricsId);
 
     if (!deletedProjectCustomMetrics) {
@@ -121,9 +139,9 @@ async function deleteProjectCustomMetricsById(req, res) {
 }
 
 export {
-    registerProjectCustomMetrics,
+  registerProjectCustomMetrics,
   updateProjectCustomMetrics,
-  getAllProjectCustomMetricss,
+  getAllProjectCustomMetrics,
   getProjectCustomMetricsById,
   deleteProjectCustomMetricsById,
 };

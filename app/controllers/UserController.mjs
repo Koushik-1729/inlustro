@@ -1,29 +1,32 @@
 import { User } from "../schema/Schemas.mjs";
 import bcrypt from 'bcrypt';
+import { body, validationResult } from 'express-validator';
 
-// Function to register a new user
 async function registerUser(req, res) {
   try {
-    
+    await Promise.all([
+      body('Email').isEmail().withMessage('Invalid email format').run(req),
+      body('Password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long').run(req),
+    ]);
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) { 
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { UserID, FirstName, LastName, Email, Password, Role, TimeZone } = req.body;
     console.log('Request Body:', req.body);
     console.log('Password:', Password);
 
-    // Check if the user already exists
     const existingUser = await User.findOne({ Email });
 
     if (existingUser) {
       return res.status(400).json({ error: 'User with this email already exists.' });
     }
 
-    // Hash the user password
     const saltRounds = 15;
     const hashedPassword = await bcrypt.hash(Password, saltRounds);
-
-    // Create a new user record with the specified UserID
     const newUser = new User({
-      UserID, // Manually set UserID
+      UserID, 
       FirstName,
       LastName,
       Email,
@@ -40,9 +43,20 @@ async function registerUser(req, res) {
     res.status(500).json({ error: 'Could not register the user.' });
   }
 }
-// Function to authenticate a user
+
 async function authenticateUser(req, res) {
   try {
+    [
+      body('Email').isEmail().withMessage('Invalid email format'),
+      body('Password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
+    ], (req, res) => {
+      const errors = validationResult(req);
+    
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+    }
+
     const { Email, Password } = req.body;
     console.log(req.body)
 
@@ -51,15 +65,11 @@ async function authenticateUser(req, res) {
     if (!user) {
       return res.status(401).json({ error: 'User not found.' });
     }
-
-    // Compare the provided password with the stored hash
     const passwordMatch = await bcrypt.compare(Password, user.PasswordHash);
 
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid password.' });
     }
-
-    // You can generate a JWT token for authentication here if needed
 
     res.json({ message: 'Authentication successful.' });
   } catch (error) {
@@ -68,20 +78,20 @@ async function authenticateUser(req, res) {
   }
 }
 
-// Function to update user information
+
 async function updateUser(req, res) {
   try {
     const { UserId } = req.params;
     const { FirstName, LastName, Email, Role, TimeZone } = req.body;
 
-    // Find the user by UserId
+  
     const user = await User.findById(UserId);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    // Update user fields
+
     user.FirstName = FirstName;
     user.LastName = LastName;
     user.Email = Email;
@@ -97,31 +107,31 @@ async function updateUser(req, res) {
   }
 }
 
-// Function to change user password
+
 async function changePassword(req, res) {
   try {
     const { UserId } = req.params;
     const { CurrentPassword, NewPassword } = req.body;
 
-    // Find the user by UserId
+    
     const user = await User.findById(UserId);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    // Compare the provided current password with the stored hash
+   
     const passwordMatch = await bcrypt.compare(CurrentPassword, user.PasswordHash);
 
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Current password is incorrect.' });
     }
 
-    // Hash the new password
+   
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(NewPassword, saltRounds);
 
-    // Update user's password hash
+    
     user.PasswordHash = hashedPassword;
 
     await user.save();
@@ -133,12 +143,11 @@ async function changePassword(req, res) {
   }
 }
 
-// Function to delete a user
+
 async function deleteUser(req, res) {
   try {
     const { UserId } = req.params;
 
-    // Find and remove the user by UserId
     const deletedUser = await User.findByIdAndRemove(UserId);
 
     if (!deletedUser) {
@@ -151,7 +160,7 @@ async function deleteUser(req, res) {
     res.status(500).json({ error: 'Could not delete the user.' });
   }
 }
-// Function to get all users
+
 async function getAllUsers(req, res) {
   try {
     const users = await User.find();
@@ -162,7 +171,6 @@ async function getAllUsers(req, res) {
   }
 }
 
-// Function to get a single user by ID
 async function getUserById(req, res) {
   try {
     const { UserId } = req.params;
@@ -179,12 +187,11 @@ async function getUserById(req, res) {
   }
 }
 
-// Function to delete a user by ID
 async function deleteUserById(req, res) {
   try {
     const { UserId } = req.params;
 
-    // Find and remove the user by UserId
+   
     const deletedUser = await User.findByIdAndRemove(UserId);
 
     if (!deletedUser) {

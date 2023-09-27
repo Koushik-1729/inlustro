@@ -2,7 +2,7 @@
 
 import { Zone } from '../schema/Schemas.mjs';
 
-// Function to register a new Zone
+
 async function registerZone(req, res) {
     try {
       
@@ -10,7 +10,7 @@ async function registerZone(req, res) {
     const { ZoneID, ZoneName } = req.body;
       console.log('Request Body:', req.body);
   
-      // Create a new Zone record with the specified ZoneID
+    
       const newZone = new Zone({
         ZoneID, ZoneName
       });
@@ -23,20 +23,19 @@ async function registerZone(req, res) {
   }
 }
 
-// Get all zones
-export async function getAllZones(req, res) {
+async function getAllZones(req, res) {
   try {
       const { ZoneId } = req.params;
       const { ZoneName } = req.body;
   
-      // Find the Zone by ZoneId
+    
       const zone = await Zone.findById(ZoneId);
   
       if (!zone) {
         return res.status(404).json({ error: 'Zone not found.' });
       }
   
-      // Update Zone fields
+      
       zone.ZoneName = ZoneName;
   
       await zone.save();
@@ -47,7 +46,7 @@ export async function getAllZones(req, res) {
   }
 }
 
-  // Function to delete a Zone
+ 
   async function deleteZone(req, res) {
     try {
     const zone = await Zone.findById(req.params.id);
@@ -60,8 +59,7 @@ export async function getAllZones(req, res) {
   }
 }
 
-// Update a zone by ID
-export async function updateZoneById(req, res) {
+async function updateZoneById(req, res) {
   try {
     const { ZoneName } = req.body;
     const updatedZone = await Zone.findByIdAndUpdate(
@@ -78,15 +76,26 @@ export async function updateZoneById(req, res) {
   }
 }
 
-// Delete a zone by ID
-export async function deleteZoneById(req, res) {
+async function deleteZoneById(req, res) {
   try {
     const deletedZone = await Zone.findByIdAndRemove(req.params.id);
     if (!deletedZone) {
       return res.status(404).json({ error: 'Zone not found.' });
     }
-    res.json({ message: 'Zone deleted successfully.' });
+    res.json({ message: 'Zone deleted successfully.'});
   } catch (error) {
-    res.status(500).json({ error: 'Could not delete the zone.' });
+    res.status(500).json({ error: 'Could not delete the zone.'});
   }
 }
+export  {
+  registerZone,
+  getAllZones,
+  deleteZone,
+  updateZoneById,
+  deleteZoneById,
+};
+
+
+
+
+
