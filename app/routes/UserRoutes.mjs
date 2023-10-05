@@ -5,8 +5,7 @@ import {registerUser,
   changePassword,
   getAllUsers,
   getUserById,
-  deleteUserById
-
+  deleteUserById,
 } from '../controllers/UserController.mjs';
 const router =express.Router();
 router.post('/register', registerUser);

@@ -51,7 +51,7 @@ async function getZoneCustomMetricsById(req, res) {
     const { zoneCustomMetricsId, populateFields } = req.params;
     const query = ZoneCustomMetrics.findById(zoneCustomMetricsId);
 
-   
+  
     if (populateFields) {
       const fields = populateFields.split(',');
 

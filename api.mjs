@@ -93,9 +93,4 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
   app.use('/api/UserProjectMeeting',UserProjectMeetingRoleRoute);
   app.use('/api/UserProjectZoneMeetingRole',UserProjectZoneMeetingRoleRoute);
   app.use('/api/UserProjectZoneRole',UserProjectZoneRoleRoutte);
-  
-
-
-
-
 app.listen(8000,()=>console.log("server started"));
