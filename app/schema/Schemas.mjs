@@ -239,7 +239,6 @@ ParticipantUserID: {
   type: mongoose.Schema.Types.ObjectId,
   ref: 'User', // Reference to the User collection
 },
-FacialExpressionsData: String, // You can use JSON type here if needed
 FacialExpressionsData: {
   type: mongoose.Schema.Types.Mixed, // JSON data can be stored as Mixed type
 },

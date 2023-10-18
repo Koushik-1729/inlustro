@@ -1,5 +1,6 @@
 
 import express from 'express';
+import axios from 'axios';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose'; 
 import rateLimit from 'express-rate-limit';
@@ -41,6 +42,25 @@ import UserProjectZoneRoleRoutte from './app/routes/UserProjectZoneRoleRoutte.mj
 import { User, Team, Project, UserProjectMembership, Zone, ZoneCustomMetrics,ProjectCustomMetrics,TeamCustomMetrics,UserCustomMetrics,CustomMetrics,UserProjectZoneMeetingRole,UserZoneMeetingRole,UserProjectMeetingRole,UserMeetingRole,UserProjectZoneRole,UserZoneRole
   ,UserTeamRole,UserTeamMembership,UserProjectRole,UserZoneMembership,ZoneMeetingAnalytics,UserSentiment,MeetingAnalytics,PostMeetingReport,SpeakerRecognition,SuggestedTimeSlot,EngagementMetrics,DiscussionPoint,DiscussionTopic,ActionItem,Participant,Meeting,ZoneMeetingMembership} from './app/schema/Schemas.mjs';
 
+// const express = require('express');
+// const app1 = express()
+// const readline = require("readline-sync")
+
+// let a = readline.question();
+// app1.get('/', (req, res) => {
+
+//     const { spawn } = require('child_process');
+//     const pyProg = spawn('python', ['main.py',a]);
+
+//     pyProg.stdout.on('data', function(data) {
+
+//         console.log(data.toString());
+//         res.write(data);
+//         res.end('end');
+//     });
+// })
+
+
 const app = express();
 
 mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/dev")
@@ -55,6 +75,43 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
   });
   app.use('/api',limiter);
   app.use(bodyParser.json());
+  app.post('/summarize', async (req, res) => {
+    try {
+      
+      if (!req.body.PostMeetingReportID) {
+        return res.status(400).json({ error: 'PostMeetingReportID is required in the request body' });
+      }
+  
+      const textToSummarize = req.body.text;
+      console.log(textToSummarize)
+      // console.log(req.body.text)
+      
+      const flaskResponse = await axios.post('http://127.0.0.1:5000/summarize', {
+        text: textToSummarize
+      });
+      console.log('Flask Response:', flaskResponse);
+  
+      if (flaskResponse.status === 200) {
+        const summarizedText = flaskResponse.data.summarized_text;
+        console.log('Summarized Text:', summarizedText);
+  
+        
+        const { PostMeetingReportID } = req.body;
+        await PostMeetingReport.findOneAndUpdate(
+          { _id: PostMeetingReportID },
+          { KeyDecisions: summarizedText }
+        );
+  
+        return res.status(200).json({ summarizedText });
+      } else {
+        return res.status(flaskResponse.status).json({ error: 'Error from Flask server' });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   

@@ -151,8 +151,6 @@ async function changePassword(req, res) {
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
-
-    
     const passwordMatch = await bcrypt.compare(CurrentPassword, user.PasswordHash);
 
     if (!passwordMatch) {
@@ -197,13 +195,36 @@ async function deleteUser(req, res) {
 
 async function getAllUsers(req, res) {
   try {
-    const users = await User.find();
-    res.json(users);
+    const { page, limit, filter } = req.query;
+    
+    const pageOptions = {
+      page: parseInt(page, 10) || 1,
+      limit: parseInt(limit, 10) || 10, 
+    };
+
+    const filterOptions = filter ? { $text: { $search: filter } } : {};
+
+    const users = await User.find(filterOptions)
+      .skip((pageOptions.page - 1) * pageOptions.limit)
+      .limit(pageOptions.limit);
+
+    const totalCount = await User.countDocuments(filterOptions);
+
+    const totalPages = Math.ceil(totalCount / pageOptions.limit);
+
+    res.json({
+      users,
+      page: pageOptions.page,
+      limit: pageOptions.limit,
+      totalPages,
+      totalCount,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Could not fetch users.' });
   }
 }
+
 
 async function getUserById(req, res) {
   try {

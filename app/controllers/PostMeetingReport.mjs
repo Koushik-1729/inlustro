@@ -1,4 +1,5 @@
 import express from 'express';
+import { spawn } from 'child_process';
 import { PostMeetingReport,Meeting } from '../schema/Schemas.mjs';
 // Function to create a new post-meeting report
 async function createPostMeetingReport(req, res) {
@@ -18,13 +19,13 @@ async function createPostMeetingReport(req, res) {
       User12:83,
 
     }
-    const SampleDataForTopicAnalysis={
-      topic1:
-      {
-        keywords:['maths','Geometry','Algebra','Mathematical Model'],
-        sentiment:'Positive',
-      }
-    }
+    // const SampleDataForTopicAnalysis={
+    //   topic1:
+    //   {
+    //     keywords:['maths','Geometry','Algebra','Mathematical Model'],
+    //     sentiment:'Positive',
+    //   }
+    // }
     const {
       PostMeetingReportID,
       MeetingID,
@@ -34,12 +35,13 @@ async function createPostMeetingReport(req, res) {
       FollowUpTasks,
     } = req.body;
 
+    const topicAnalysis = await performTopicAnalysis(EngagementMetricsSummary);
     const newPostMeetingReport = new PostMeetingReport({
       PostMeetingReportID,
       MeetingID,
       EngagementMetricsSummary,
       SpeakingTimeDistribution:SampleDataForSpeakingTimeDistribution,
-      TopicAnalysis:SampleDataForTopicAnalysis,
+      TopicAnalysis:topicAnalysis,
       ActionItemsSummary,
       KeyDecisions,
       FollowUpTasks,
@@ -53,6 +55,37 @@ async function createPostMeetingReport(req, res) {
     res.status(500).json({ error: 'Could not create post-meeting report.' });
   }
 }
+async function performTopicAnalysis(engagementMetricsSummary) {
+  return new Promise((resolve, reject) => {
+    const scriptPath = './aimodles/main.py';
+
+    const pyProg = spawn('python', [scriptPath, engagementMetricsSummary]);
+
+    let data = '';
+
+    pyProg.stdout.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    pyProg.on('close', (code) => {
+      if (code === 0) {
+        try {
+          const result = JSON.parse(data.trim());
+          resolve(result); 
+        } catch (err) {
+          reject('Error parsing JSON data from the Python script');
+        }
+      } else {
+        reject(`Python script exited with code ${code}`);
+      }
+    });
+  });
+}
+
+
+
+
+
 
 async function updatePostMeetingReport(req, res) {
   try {
@@ -130,7 +163,7 @@ async function getAllPostMeetingReports(req, res) {
 
 async function getPostMeetingReportById(req, res) {
   try {
-    const { PostMeetingReportID } = req.params;
+    const { PostMeetingReportID } = req.params; 
     const postMeetingReport = await PostMeetingReport.findById(PostMeetingReportID)
     .populate({
       path:'MeetingID',
@@ -155,4 +188,4 @@ export {
   deletePostMeetingReport,
   getAllPostMeetingReports,
   getPostMeetingReportById,
-};
+};  
