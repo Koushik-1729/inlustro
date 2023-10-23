@@ -3,29 +3,43 @@ from flask import Flask, jsonify,request
 from sumy.summarizers.lsa import LsaSummarizer
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
-
 app = Flask(__name__)
 
+
+def summarize(data):
+    original_text = data.get('text')
+    if not original_text:
+        return jsonify({'error': 'No text to summarize'})
+    parser = PlaintextParser.from_string(original_text, Tokenizer('english'))
+    lsa_summarizer = LsaSummarizer()
+    lsa_summary = lsa_summarizer(parser.document, 10)
+    summarized_text = " ".join(str(sentence) for sentence in lsa_summary)
+
+    if summarized_text:
+        print(summarized_text)
+        return jsonify({'summarized_text': summarized_text})
+    else:
+        return jsonify({'error': 'No summarized text available'})
+
+    pass
 # Route for text summarization
 @app.route('/summarize', methods=['POST'])
 def summarize_text():
     try:
         # Get the text to be summarized from the request body
         data = request.get_json()
-        original_text = data.get('text')
+        _modelType = data.get('_modelType')
+        if _modelType == 'SUM':
+            return summarize(data)
+        
 
+        original_text = data.get('text')
+        _model =  data.text('modelType')
         if not original_text:
             return jsonify({'error': 'No text to summarize'})
-
-      
         parser = PlaintextParser.from_string(original_text, Tokenizer('english'))
-
-       
         lsa_summarizer = LsaSummarizer()
-
         lsa_summary = lsa_summarizer(parser.document, 10)
-
-        
         summarized_text = " ".join(str(sentence) for sentence in lsa_summary)
 
         if summarized_text:

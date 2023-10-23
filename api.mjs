@@ -78,34 +78,57 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
   app.post('/summarize', async (req, res) => {
     try {
       
-      if (!req.body.PostMeetingReportID) {
+      if (!req.body.Id) {
         return res.status(400).json({ error: 'PostMeetingReportID is required in the request body' });
       }
   
-      const textToSummarize = req.body.text;
-      console.log(textToSummarize)
+      const _data = req.body.data;
+      const _model = req.body.model;
+      const _idType  = req.body.idType;
+      // console.log(textToSummarize)
       // console.log(req.body.text)
       
       const flaskResponse = await axios.post('http://127.0.0.1:5000/summarize', {
-        text: textToSummarize
+        _data: _data,
+        _modelType: _model
       });
       console.log('Flask Response:', flaskResponse);
   
       if (flaskResponse.status === 200) {
-        const summarizedText = flaskResponse.data.summarized_text;
-        console.log('Summarized Text:', summarizedText);
+        const _response = flaskResponse.data._output;
+        console.log('Summarized Text:', _response);
   
-        
-        const { PostMeetingReportID } = req.body;
+        if(_idType == 'POSTMEET'){
+        const { id } = req.body;
         await PostMeetingReport.findOneAndUpdate(
-          { _id: PostMeetingReportID },
-          { KeyDecisions: summarizedText }
+          { _id: id},
+          { KeyDecisions: _response },
+          // {modelType :  summarizedText}
+          
+
         );
-  
-        return res.status(200).json({ summarizedText });
+        }
+        else if (_idType=='FACE'){
+          const { id } = req.body;
+          await EngagementMetrics.findOneAndUpdate(
+            {_id:id},
+            {FacialExpressionsData:_response}
+          );
+        }
+        else if(_idType=='VOICE')
+        {
+
+        }
+        else if(_idType=='DETECTFACE')
+        {
+          
+        }
+        return res.status(200).json({ _response});
+
       } else {
         return res.status(flaskResponse.status).json({ error: 'Error from Flask server' });
       }
+    
     } catch (error) {
       console.error('Error:', error);
       return res.status(500).json({ error: 'Internal server error' });
