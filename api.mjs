@@ -80,7 +80,7 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
       
       if (!req.body.Id) {
         console.log(req.body.Id)
-        return res.status(400).json({ error: 'PostMeetingReportID is required in the request body' });
+        return res.status(400).json({ error: 'Id is required in the request body' });
       }
   
       const _data = req.body.data;
