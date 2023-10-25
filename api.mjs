@@ -79,6 +79,7 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
     try {
       
       if (!req.body.Id) {
+        console.log(req.body.Id)
         return res.status(400).json({ error: 'PostMeetingReportID is required in the request body' });
       }
   
@@ -95,13 +96,14 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
       console.log('Flask Response:', flaskResponse);
   
       if (flaskResponse.status === 200) {
-        const _response = flaskResponse.data._output;
-        console.log('Summarized Text:', _response);
+        const _response = flaskResponse.data.summarized_text;
+        console.log(_response)
+        // console.log('Summarized Text:', _response);
   
         if(_idType == 'POSTMEET'){
-        const { id } = req.body;
+        const { Id } = req.body;
         await PostMeetingReport.findOneAndUpdate(
-          { _id: id},
+          { _id: Id},
           { KeyDecisions: _response },
           // {modelType :  summarizedText}
           
@@ -109,9 +111,9 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
         );
         }
         else if (_idType=='FACE'){
-          const { id } = req.body;
+          const { Id } = req.body;
           await EngagementMetrics.findOneAndUpdate(
-            {_id:id},
+            {_id: Id},
             {FacialExpressionsData:_response}
           );
         }
