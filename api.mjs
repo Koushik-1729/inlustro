@@ -93,11 +93,17 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
         _data: _data,
         _modelType: _model
       });
-      console.log('Flask Response:', flaskResponse);
   
       if (flaskResponse.status === 200) {
         const _response = flaskResponse.data.summarized_text;
-        console.log(_response)
+        const positivePercentage = flaskResponse.data.positive_percentage;
+        console.log(positivePercentage)
+        
+
+        const negativePercentage = flaskResponse.data.negative_percentage;
+        console.log(negativePercentage)
+        console.log(flaskResponse)
+        // console.log(_response)
         // console.log('Summarized Text:', _response);
   
         if(_idType == 'POSTMEET'){
@@ -114,16 +120,19 @@ mongoose.connect("mongodb+srv://koushik:koushik123@cluster0.60rrs9x.mongodb.net/
           const { Id } = req.body;
           await EngagementMetrics.findOneAndUpdate(
             {_id: Id},
-            {FacialExpressionsData:_response}
+            {FacialExpressionsData:{ positive: positivePercentage, negative: negativePercentage } },
+            { new: true }
           );
         }
         else if(_idType=='VOICE')
         {
+          const { Id } = req.body;
 
         }
         else if(_idType=='DETECTFACE')
         {
           
+
         }
         return res.status(200).json({ _response});
 
