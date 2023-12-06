@@ -1,0 +1,436 @@
+.goal-progress {
+    background-color: #101010;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.goal-progress .div {
+    background-color: #101010;
+    height: 982px;
+    position: relative;
+    width: 1512px;
+}
+
+.goal-progress .overlap {
+    height: 677px;
+    left: 273px;
+    position: absolute;
+    top: 262px;
+    width: 1038px;
+}
+
+.goal-progress .overlap-group {
+    height: 677px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1038px;
+}
+
+.goal-progress .text-wrapper {
+    color: #ffffff;
+    font-family: "Poppins-Regular", Helvetica;
+    font-size: 23px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 95px;
+    width: 322px;
+}
+
+.goal-progress .line {
+    height: 1px;
+    left: 8px;
+    object-fit: cover;
+    position: absolute;
+    top: 72px;
+    width: 1028px;
+    background-color: white;
+}
+
+.goal-progress .img {
+    height: 715px;
+    left: 321px;
+    object-fit: cover;
+    position: absolute;
+    top: 7px;
+    background-color: white;
+    width: 1px;
+}
+
+.goal-progress .line-2 {
+    height: 720px;
+    left: 860px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    background-color: white;
+    width: 1px;
+}
+
+.goal-progress .line-3 {
+    height: 720px;
+    left: 566px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 1px;
+    background-color: white;
+}
+
+.goal-progress .text-wrapper-2 {
+    color: #ffffff;
+    font-family: "Poppins-Regular", Helvetica;
+    font-size: 23px;
+    font-weight: 400;
+    left: 343px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 95px;
+    width: 210px;
+}
+
+.goal-progress .div-wrapper {
+    background-color: #d9d9d921;
+    border-radius: 25px;
+    height: 46px;
+    left: 591px;
+    position: absolute;
+    top: 93px;
+    width: 246px;
+}
+
+.goal-progress .text-wrapper-3 {
+    color: #ffffff;
+    font-family: "Kollektif-Regular", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    left: 31px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 10px;
+    width: 185px;
+}
+
+.goal-progress .overlap-2 {
+    background-color: #fd3e3e80;
+    border-radius: 25px;
+    height: 48px;
+    left: 876px;
+    position: absolute;
+    top: 92px;
+    width: 160px;
+}
+
+.goal-progress .text-wrapper-4 {
+    color: #ffffff;
+    font-family: "Poppins-Regular", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    left: 23px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+}
+
+.goal-progress .text-wrapper-5 {
+    color: #debace;
+    font-family: "Kollektif-Bold", Helvetica;
+    font-size: 40px;
+    font-weight: 700;
+    left: 119px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 9px;
+    white-space: nowrap;
+}
+
+.goal-progress .text-wrapper-6 {
+    color: #debace;
+    font-family: "Kollektif-Bold", Helvetica;
+    font-size: 40px;
+    font-weight: 700;
+    left: 364px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 9px;
+    white-space: nowrap;
+}
+
+.goal-progress .text-wrapper-7 {
+    color: #debace;
+    font-family: "Kollektif-Bold", Helvetica;
+    font-size: 40px;
+    font-weight: 700;
+    left: 602px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 9px;
+    white-space: nowrap;
+}
+
+.goal-progress .text-wrapper-8 {
+    color: #debace;
+    font-family: "Kollektif-Bold", Helvetica;
+    font-size: 40px;
+    font-weight: 700;
+    left: 897px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 9px;
+    white-space: nowrap;
+}
+
+.goal-progress .p {
+    color: #ffffff;
+    font-family: "Kollektif-Regular", Helvetica;
+    font-size: 32.6px;
+    font-weight: 400;
+    left: 1149px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 114px;
+    white-space: nowrap;
+}
+
+.goal-progress .previous {
+    color: #ffffff;
+    font-family: "Kollektif-Regular", Helvetica;
+    font-size: 32.6px;
+    font-weight: 400;
+    left: 1153px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-decoration: underline;
+    top: 172px;
+    white-space: nowrap;
+}
+
+.goal-progress .next {
+    color: #ffffff80;
+    font-family: "Kollektif-Regular", Helvetica;
+    font-size: 32.6px;
+    font-weight: 400;
+    left: 1329px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-decoration: underline;
+    top: 172px;
+    white-space: nowrap;
+}
+
+.goal-progress .text-wrapper-9 {
+    color: #ffffff;
+    font-family: "Kollektif-Regular", Helvetica;
+    font-size: 32.6px;
+    font-weight: 400;
+    left: 1311px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 172px;
+    white-space: nowrap;
+}
+
+.goal-progress .overlap-3 {
+    border-radius: 10.26px;
+    height: 70px;
+    left: 776px;
+    position: absolute;
+    top: 139px;
+    width: 301px;
+}
+
+.goal-progress .rectangle {
+    background-color: #ba94d1;
+    border-radius: 10.26px;
+    height: 70px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 301px;
+}
+
+.goal-progress .text-wrapper-10 {
+    color: #ffffff;
+    font-family: "Kollektif-Bold", Helvetica;
+    font-size: 25.2px;
+    font-weight: 700;
+    left: 15px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+    width: 222px;
+}
+
+.goal-progress .tab {
+    height: 34px;
+    left: 247px;
+    object-fit: cover;
+    position: absolute;
+    top: 18px;
+    width: 34px;
+}
+
+.goal-progress .line-4 {
+    height: 1px;
+    left: 281px;
+    object-fit: cover;
+    position: absolute;
+    top: 233px;
+    width: 423px;
+    background-color: white;
+}
+
+.goal-progress .text-wrapper-11 {
+    color: #fbfacd;
+    font-family: "Kollektif-Regular", Helvetica;
+    font-size: 70px;
+    font-weight: 400;
+    left: 362px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 138px;
+    white-space: nowrap;
+}
+
+.goal-progress .text-wrapper-12 {
+    color: #ffffff;
+    font-family: "Kollektif-Bold", Helvetica;
+    font-size: 50px;
+    font-weight: 700;
+    left: 361px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 63px;
+    white-space: nowrap;
+}
+
+.goal-progress .arrow {
+    height: 50px;
+    left: 281px;
+    object-fit: cover;
+    position: absolute;
+    top: 69px;
+    width: 50px;
+}
+
+.goal-progress .navigation-bar {
+    background-color: #1313133d;
+    border: 1px solid;
+    border-color: #414141;
+    border-radius: 40px;
+    height: 900px;
+    left: 0;
+    top: 0;
+    width: 185px;
+    
+}
+
+.goal-progress .home {
+    height: 63px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 298px;
+    width: 63px;
+}
+
+.goal-progress .crown {
+    height: 63px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 394px;
+    width: 63px;
+}
+
+.goal-progress .people {
+    height: 63px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 493px;
+    width: 63px;
+}
+
+.goal-progress .add {
+    height: 63px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 586px;
+    width: 63px;
+}
+
+.goal-progress .setting {
+    height: 63px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 699px;
+    width: 63px;
+}
+
+.goal-progress .question {
+    height: 63px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 820px;
+    width: 63px;
+}
+
+.goal-progress .profile-picture {
+    background-color: #fdd33e;
+    border-radius: 9px;
+    height: 63px;
+    left: 71px;
+    position: absolute;
+    top: 169px;
+    width: 63px;
+}
+
+.goal-progress .image {
+    height: 50px;
+    left: 5px;
+    object-fit: cover;
+    position: absolute;
+    top: 13px;
+    width: 52px;
+}
+
+.goal-progress .logo {
+    height: 73px;
+    left: 65px;
+    position: absolute;
+    top: 58px;
+    width: 72px;
+}
+
+.goal-progress .line-5 {
+    height: 1px;
+    left: 66px;
+    position: absolute;
+    top: 260px;
+    width: 72px;
+    background-color: white;
+}
